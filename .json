@@ -1,0 +1,44 @@
+{
+  "beaches": [
+    {
+      "id": 1,
+      "name": "Bora Bora, French Polynesia",
+      "imageUrl": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2073&auto=format&fit=crop",
+      "description": "Turquoise lagoon, overwater bungalows, and stunning volcanic peaks. Perfect for honeymooners and luxury seekers."
+    },
+    {
+      "id": 2,
+      "name": "Whitehaven Beach, Australia",
+      "imageUrl": "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?q=80&w=2073&auto=format&fit=crop",
+      "description": "7km of pure white silica sand and crystal-clear waters. One of the world's most beautiful beaches."
+    }
+  ],
+  "temples": [
+    {
+      "id": 3,
+      "name": "Angkor Wat, Cambodia",
+      "imageUrl": "https://images.unsplash.com/photo-1558391755-142a5b19f27b?q=80&w=2070&auto=format&fit=crop",
+      "description": "The largest religious monument in the world, built in the 12th century. A masterpiece of Khmer architecture."
+    },
+    {
+      "id": 4,
+      "name": "Golden Temple, India",
+      "imageUrl": "https://images.unsplash.com/photo-1621897691912-ee2a73fc38f3?q=80&w=1974&auto=format&fit=crop",
+      "description": "Sacred Sikh shrine covered in real gold, surrounded by the holy sarovar. A symbol of peace and equality."
+    }
+  ],
+  "countries": [
+    {
+      "id": 5,
+      "name": "Sydney, Australia",
+      "imageUrl": "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=2070&auto=format&fit=crop",
+      "description": "Iconic Opera House, Harbour Bridge, and beautiful beaches. A vibrant city with endless activities."
+    },
+    {
+      "id": 6,
+      "name": "Tokyo, Japan",
+      "imageUrl": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1974&auto=format&fit=crop",
+      "description": "Neon-lit metropolis with ancient temples, amazing food, and unique culture. Where tradition meets future."
+    }
+  ]
+}

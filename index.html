@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelBloom - Your Travel Recommendation Expert</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        /* Navigation Bar - 6 points */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 3rem;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #ffd700;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            background: #ffd700;
+            color: black;
+        }
+
+        .nav-links a.active {
+            background: #ffd700;
+            color: black;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem;
+            border-radius: 30px;
+            border: 1px solid #ffd700;
+        }
+
+        .search-bar input {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 25px;
+            background: transparent;
+            color: white;
+            width: 250px;
+            outline: none;
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-bar button {
+            padding: 0.5rem 1.2rem;
+            border: none;
+            border-radius: 25px;
+            background: #ffd700;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-bar button:hover {
+            background: #ffed4a;
+            transform: scale(1.05);
+        }
+
+        .clear-btn {
+            background: #dc3545 !important;
+            color: white !important;
+        }
+
+        .clear-btn:hover {
+            background: #c82333 !important;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Home Page */
+        .home-page, .about-page, .contact-page {
+            display: none;
+        }
+
+        .home-page.active, .about-page.active, .contact-page.active {
+            display: block;
+        }
+
+        /* Introduction for Home Page - 4 points */
+        .intro-section {
+            margin: 3rem 0;
+            padding: 3rem;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border-left: 5px solid #ffd700;
+        }
+
+        .intro-section h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .intro-section p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            max-width: 800px;
+        }
+
+        /* Results Section */
+        .results-title {
+            font-size: 2rem;
+            margin: 2rem 0;
+            color: #ffd700;
+            border-bottom: 2px solid #ffd700;
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #ffd700;
+            transition: transform 0.3s;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .result-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .result-card h3 {
+            padding: 1rem;
+            color: #ffd700;
+            font-size: 1.3rem;
+        }
+
+        .result-card p {
+            padding: 0 1rem 1rem 1rem;
+            color: white;
+            line-height: 1.5;
+        }
+
+        /* About Us Page - 2 points */
+        .about-container {
+            margin: 3rem 0;
+            padding: 3rem;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border-left: 5px solid #ffd700;
+        }
+
+        .about-container h1 {
+            font-size: 3rem;
+            color: #ffd700;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-container p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .team-section {
+            margin-top: 3rem;
+        }
+
+        .team-section h2 {
+            font-size: 2rem;
+            color: #ffd700;
+            margin-bottom: 2rem;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid #ffd700;
+        }
+
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .team-card h3 {
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-card .role {
+            color: #00b4d8;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Us Page - 1 point */
+        .contact-container {
+            margin: 3rem 0;
+            padding: 3rem;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border-left: 5px solid #ffd700;
+            max-width: 800px;
+        }
+
+        .contact-container h1 {
+            font-size: 3rem;
+            color: #ffd700;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            margin-bottom: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            width: 40px;
+        }
+
+        /* Contact Us email form - 1 point */
+        .contact-form {
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ffd700;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #ff8c00;
+        }
+
+        .submit-btn {
+            background: #ffd700;
+            color: black;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #ffed4a;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar - 6 points -->
+    <nav class="navbar">
+        <div class="logo">🌍 TravelBloom</div>
+        <div class="nav-links">
+            <a onclick="showPage('home')" id="home-link" class="active">Home</a>
+            <a onclick="showPage('about')" id="about-link">About Us</a>
+            <a onclick="showPage('contact')" id="contact-link">Contact Us</a>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Enter beach, temple, country...">
+            <button onclick="performSearch()">🔍 Search</button>
+            <button onclick="clearResults()" class="clear-btn">✖ Clear</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Home Page - 4 points -->
+        <div id="home-page" class="home-page active">
+            <!-- Introduction for Home Page -->
+            <div class="intro-section">
+                <h1>EXPLORE YOUR DREAM DESTINATION</h1>
+                <p>Welcome to TravelBloom - your ultimate travel recommendation companion! Discover breathtaking beaches, ancient temples, and vibrant cities around the world. Our carefully curated recommendations help you plan your perfect getaway with detailed information, stunning images, and insider tips. Start your journey today!</p>
+            </div>
+
+            <!-- Results Section -->
+            <h2 class="results-title">✨ Featured Recommendations</h2>
+            <div id="results-grid" class="results-grid"></div>
+        </div>
+
+        <!-- About Us Page - 2 points -->
+        <div id="about-page" class="about-page">
+            <div class="about-container">
+                <h1>ABOUT US</h1>
+                <p>Welcome to TravelBloom! We are a passionate team of travel enthusiasts dedicated to helping you discover the world's most amazing destinations. Our mission is to provide authentic, detailed, and inspiring travel recommendations that make your journey planning effortless and exciting.</p>
+                <p>Founded in 2024, TravelBloom has grown into a trusted resource for travelers worldwide. We personally visit and evaluate each destination we recommend, ensuring you get accurate, up-to-date information and genuine insights.</p>
+                
+                <div class="team-section">
+                    <h2>Our Team</h2>
+                    <div class="team-grid">
+                        <div class="team-card">
+                            <div class="team-avatar">👨‍💼</div>
+                            <h3>John Doe</h3>
+                            <div class="role">CEO & Founder</div>
+                            <p>Visionary leader with 15+ years in travel industry. Ensures every recommendation meets our high standards.</p>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-avatar">👩‍💻</div>
+                            <h3>Celina Thomas</h3>
+                            <div class="role">Team Lead</div>
+                            <p>Technical genius who transforms travel dreams into seamless digital experiences.</p>
+                        </div>
+                        <div class="team-card">
+                            <div class="team-avatar">👨‍🚀</div>
+                            <h3>Mike Tyson</h3>
+                            <div class="role">Delivery Head</div>
+                            <p>Ensures all travel content is accurate, engaging, and delivered with excellence.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Us Page - 1 point -->
+        <div id="contact-page" class="contact-page">
+            <div class="contact-container">
+                <h1>CONTACT US</h1>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="contact-icon">📍</span>
+                        <span>123 Travel Street, Adventure City, AC 12345</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">📞</span>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-icon">✉️</span>
+                        <span>hello@travelbloom.com</span>
+                    </div>
+                </div>
+
+                <!-- Email Form - 1 point -->
+                <div class="contact-form">
+                    <form id="contactForm" onsubmit="handleContactSubmit(event)">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" required placeholder="Your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required placeholder="your.email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" rows="5" required placeholder="How can we help you?"></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 TravelBloom. All rights reserved. | Your trusted travel companion
+    </footer>
+
+    <script src="travel_recommendation.js"></script>
+</body>
+</html>
